@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
               items: artists,
               builder: (context, index, item) {
                 return ListTile(
-                  title: Text(artists[index].name),
+                  title: Text(item.name),
                   leading: Text(index.toString()),
                 );
               }),

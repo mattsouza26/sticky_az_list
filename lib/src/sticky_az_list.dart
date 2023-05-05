@@ -87,29 +87,32 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: _getScrollAligment(),
-      children: [
-        Expanded(
-          child: AZList(
-            viewKey: listKey,
-            data: groupedList,
-            controller: controller,
-            physics: widget.physics,
-            options: widget.options.listOptions,
-            defaultSpecialSymbolBuilder: widget.options.specialSymbolBuilder,
+    return Padding(
+      padding: widget.options.padding ?? EdgeInsets.zero,
+      child: Row(
+        crossAxisAlignment: _getScrollAligment(),
+        children: [
+          Expanded(
+            child: AZList(
+              viewKey: listKey,
+              data: groupedList,
+              controller: controller,
+              physics: widget.physics,
+              options: widget.options.listOptions,
+              defaultSpecialSymbolBuilder: widget.options.specialSymbolBuilder,
+            ),
           ),
-        ),
-        ScrollBar(
-          items: groupedList,
-          options: widget.options.scrollBarOptions,
-          symbols: symbols,
-          symbolNotifier: symbolNotifier,
-          defaultSpecialSymbolBuilder: widget.options.specialSymbolBuilder,
-          onSelectedSymbol: _onSelectedSymbol,
-          onSelectionEnd: _hideSymbolOverlay,
-        ),
-      ],
+          ScrollBar(
+            items: groupedList,
+            options: widget.options.scrollBarOptions,
+            symbols: symbols,
+            symbolNotifier: symbolNotifier,
+            defaultSpecialSymbolBuilder: widget.options.specialSymbolBuilder,
+            onSelectedSymbol: _onSelectedSymbol,
+            onSelectionEnd: _hideSymbolOverlay,
+          ),
+        ],
+      ),
     );
   }
 
@@ -222,7 +225,7 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
       left = (MediaQuery.of(context).size.width - overlayOptions.width) -
           (scrollBarOptions.width + scrollBarOptions.padding.right + scrollBarOptions.margin.horizontal) +
           (overlayOptions.offset?.dx ?? 0);
-      top = top - (overlayOptions.height / 2).ceilToDouble() + (overlayOptions.offset?.dx ?? 0);
+      top = top - (overlayOptions.height / 2).ceilToDouble() + (overlayOptions.offset?.dy ?? 0);
     }
 
     if (symbolOverlay == null) {
