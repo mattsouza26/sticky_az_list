@@ -20,16 +20,6 @@
 |:------|:-----:|------:|
 ![](https://user-images.githubusercontent.com/74125222/236589285-97666b4b-fc2f-47b5-b2e7-1c74aca094b1.gif)|![](https://user-images.githubusercontent.com/74125222/236589283-520f94a9-5292-4964-aaf2-e3b33fefba49.gif)|![](https://user-images.githubusercontent.com/74125222/236589280-019529f1-c730-499f-a681-66d00cbee439.gif)
 ![](https://user-images.githubusercontent.com/74125222/236620618-e6793115-3d44-4cfc-8bd9-03b228c6c966.gif)|![](https://user-images.githubusercontent.com/74125222/236620931-d3f1f87a-f698-434d-85fb-cbae46dd1548.gif)|
-<style>
-table {
-  border-collapse: collapse;
-}
-table td, table th, table tr {
-  border: none!important;
-}
-</style>
-
-
 
 
 
@@ -75,4 +65,21 @@ StickyAzList(
             );
     });
 ```
+
+
+<svg fill="none" viewBox="0 0 600 300" width="600" height="300" xmlns="http://www.w3.org/2000/svg">
+  <foreignObject width="100%" height="100%">
+    <div xmlns="http://www.w3.org/1999/xhtml">
+    <style>
+table {
+  border-collapse: collapse;
+}
+table td, table th, table tr {
+  border: none!important;
+}
+</style>
+
+
+  </foreignObject>
+</svg>
 
