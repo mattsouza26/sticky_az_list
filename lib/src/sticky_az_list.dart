@@ -161,8 +161,10 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
     widget.items.clear();
 
     data.sort((a, b) {
-      if (widget.options.startWithSpecialSymbol)
+      if (widget.options.startWithSpecialSymbol) {
         return a.sortName().compareTo(b.sortName());
+      }
+
       final String symbolFromA = SymbolCharExt.fromString(a.sortName()).value;
       final String symbolFromB = SymbolCharExt.fromString(b.sortName()).value;
       if (!SymbolCharExt.alphabeticMatch(symbolFromA) &&
