@@ -23,6 +23,22 @@ class _HomeScreenState extends State<HomeScreen> {
       .toList();
   final ScrollController _nestedController = ScrollController();
   bool hasNestedController = false;
+  bool showScrollBar = false;
+  @override
+  void initState() {
+    _nestedController.addListener(() {
+      if (_nestedController.offset == _nestedController.position.maxScrollExtent) {
+        setState(() {
+          showScrollBar = true;
+        });
+      } else if (_nestedController.offset < _nestedController.position.maxScrollExtent && showScrollBar) {
+        setState(() {
+          showScrollBar = false;
+        });
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
               body: Padding(
                 padding: const EdgeInsets.all(0.0),
                 child: StickyAzList(
+                    options: StickyAzOptions(scrollBarOptions: ScrollBarOptions(visible: showScrollBar)),
                     physics: NestedScrollControllerPhysics(parentController: _nestedController),
                     items: artists,
                     builder: (context, index, item) {
