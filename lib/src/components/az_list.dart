@@ -39,29 +39,41 @@ class AZList extends StatelessWidget {
           SliverToBoxAdapter(child: options.beforeList),
           ...data
               .map((item) => SliverOffstage(
-                    offstage: !item.children.isNotEmpty && !options.showSectionHeaderForEmptySections,
+                    offstage: !item.children.isNotEmpty &&
+                        !options.showSectionHeaderForEmptySections,
                     sliver: SliverSafeArea(
                       sliver: SliverStickyHeader(
                         key: item.key,
                         sticky: options.stickySectionHeader,
                         header: options.showSectionHeader
-                            ? item.tag == "#" && options.specialSymbolBuilder != null || item.tag == "#" && defaultSpecialSymbolBuilder != null
-                                ? options.specialSymbolBuilder?.call(context, item.tag, null) ??
+                            ? item.tag == "#" &&
+                                        options.specialSymbolBuilder != null ||
+                                    item.tag == "#" &&
+                                        defaultSpecialSymbolBuilder != null
+                                ? options.specialSymbolBuilder
+                                        ?.call(context, item.tag, null) ??
                                     DefaultHeaderSymbol(
                                       alignment: options.headerAligment,
-                                      symbolIcon: defaultSpecialSymbolBuilder?.call(context, item.tag, null),
-                                      backgroundColor: options.headerColor ?? options.backgroundColor ?? themeData.colorScheme.primary,
+                                      symbolIcon: defaultSpecialSymbolBuilder
+                                          ?.call(context, item.tag, null),
+                                      backgroundColor: options.headerColor ??
+                                          options.backgroundColor ??
+                                          themeData.colorScheme.primary,
                                       symbol: item.tag,
                                     )
-                                : options.listHeaderBuilder?.call(context, item.tag) ??
+                                : options.listHeaderBuilder
+                                        ?.call(context, item.tag) ??
                                     DefaultHeaderSymbol(
                                       alignment: options.headerAligment,
-                                      backgroundColor: options.headerColor ?? options.backgroundColor ?? themeData.colorScheme.primary,
+                                      backgroundColor: options.headerColor ??
+                                          options.backgroundColor ??
+                                          themeData.colorScheme.primary,
                                       symbol: item.tag,
                                     )
                             : const SizedBox.shrink(),
                         sliver: SliverList(
-                          delegate: SliverChildListDelegate(item.children.toList()),
+                          delegate:
+                              SliverChildListDelegate(item.children.toList()),
                         ),
                       ),
                     ),

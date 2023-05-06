@@ -22,7 +22,8 @@ class DefaultHeaderSymbol extends StatelessWidget {
 
     return Container(
       color: backgroundColor ?? themeData.colorScheme.primary,
-      padding: padding ?? const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      padding:
+          padding ?? const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Center(
         child: SizedBox(
           width: double.infinity,
@@ -31,10 +32,12 @@ class DefaultHeaderSymbol extends StatelessWidget {
             child: symbolIcon != null
                 ? Theme(
                     data: themeData.copyWith(
-                      iconTheme: IconThemeData(color: themeData.textTheme.bodyMedium?.color),
+                      iconTheme: IconThemeData(
+                          color: themeData.textTheme.bodyMedium?.color),
                     ),
                     child: DefaultTextStyle(
-                      style: themeData.textTheme.bodyMedium?.copyWith() ?? const TextStyle(),
+                      style: themeData.textTheme.bodyMedium?.copyWith() ??
+                          const TextStyle(),
                       child: symbolIcon!,
                     ),
                   )

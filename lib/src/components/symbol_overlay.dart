@@ -25,11 +25,14 @@ class SymbolOverlay {
     _overlayEntry.markNeedsBuild();
   }
 
-  rebuild({Widget Function(BuildContext context, Offset position)? builder, Offset? position}) {
+  rebuild(
+      {Widget Function(BuildContext context, Offset position)? builder,
+      Offset? position}) {
     if (builder != null || position != null) {
       _overlayEntry.remove();
       _overlayEntry = OverlayEntry(builder: (context) {
-        return builder?.call(context, position ?? this.position) ?? this.builder.call(context, position ?? this.position);
+        return builder?.call(context, position ?? this.position) ??
+            this.builder.call(context, position ?? this.position);
       });
       _overlayState.insert(_overlayEntry);
     } else {

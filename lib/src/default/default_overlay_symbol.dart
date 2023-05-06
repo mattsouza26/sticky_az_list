@@ -42,7 +42,8 @@ class DefaultOverlaySymbol extends StatelessWidget {
                   ? Theme(
                       data: themeData.copyWith(
                         iconTheme: IconThemeData(
-                          color: style?.color ?? themeData.colorScheme.onPrimary,
+                          color:
+                              style?.color ?? themeData.colorScheme.onPrimary,
                           size: style?.fontSize,
                         ),
                       ),

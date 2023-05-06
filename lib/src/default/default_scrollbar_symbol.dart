@@ -37,13 +37,16 @@ class DefaultScrollBarSymbol extends StatelessWidget {
 
     switch (state) {
       case ScrollbarItemState.active:
-        textStyle = styleActive ?? themeData.textTheme.bodyMedium?.copyWith(color: themeData.colorScheme.primary);
+        textStyle = styleActive ??
+            themeData.textTheme.bodyMedium
+                ?.copyWith(color: themeData.colorScheme.primary);
         break;
       case ScrollbarItemState.inactive:
         textStyle = styleInactive ?? themeData.textTheme.bodyMedium?.copyWith();
         break;
       case ScrollbarItemState.deactivated:
-        textStyle = styleDeactivated ?? themeData.textTheme.bodyMedium?.copyWith(color: Colors.grey);
+        textStyle = styleDeactivated ??
+            themeData.textTheme.bodyMedium?.copyWith(color: Colors.grey);
         break;
     }
 
@@ -60,7 +63,9 @@ class DefaultScrollBarSymbol extends StatelessWidget {
                   ),
                 ),
                 child: DefaultTextStyle(
-                  style: themeData.textTheme.bodyMedium?.copyWith(color: textStyle?.color) ?? TextStyle(color: textStyle?.color),
+                  style: themeData.textTheme.bodyMedium
+                          ?.copyWith(color: textStyle?.color) ??
+                      TextStyle(color: textStyle?.color),
                   child: symbolIcon!,
                 ),
               )

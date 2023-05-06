@@ -6,7 +6,8 @@ class NestedScrollControllerPhysics extends ScrollPhysics {
 
   @override
   NestedScrollControllerPhysics applyTo(ScrollPhysics? ancestor) {
-    return NestedScrollControllerPhysics(parentController: parentController, parent: buildParent(ancestor));
+    return NestedScrollControllerPhysics(
+        parentController: parentController, parent: buildParent(ancestor));
   }
 
   @override
@@ -17,7 +18,8 @@ class NestedScrollControllerPhysics extends ScrollPhysics {
 
     final double scrollPixels = position.pixels;
     final double parentScrollOffset = parentController!.offset;
-    final double parentMaxScrollExtent = parentController!.position.maxScrollExtent;
+    final double parentMaxScrollExtent =
+        parentController!.position.maxScrollExtent;
 
     if (parentScrollOffset < parentMaxScrollExtent && offset.isNegative) {
       parentController?.jumpTo(parentScrollOffset - offset);
@@ -36,12 +38,15 @@ class NestedScrollControllerPhysics extends ScrollPhysics {
 
     final double offset = value - position.pixels;
     final double parentScrollOffset = parentController!.offset;
-    final double parentMaxScrollExtent = parentController!.position.maxScrollExtent;
+    final double parentMaxScrollExtent =
+        parentController!.position.maxScrollExtent;
 
     if (parentScrollOffset < parentMaxScrollExtent) {
       parentController!.jumpTo(parentScrollOffset + offset);
     } else if (value <= 0.0 && parentController!.position.atEdge) {
-      parentController!.animateTo(0, duration: const Duration(milliseconds: 200), curve: Curves.decelerate);
+      parentController!.animateTo(0,
+          duration: const Duration(milliseconds: 200),
+          curve: Curves.decelerate);
     }
 
     return super.applyBoundaryConditions(position, value);
