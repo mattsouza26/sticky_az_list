@@ -24,20 +24,29 @@ class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _nestedController = ScrollController();
   bool hasNestedController = false;
   bool showScrollBar = false;
+
   @override
   void initState() {
-    _nestedController.addListener(() {
-      if (_nestedController.offset == _nestedController.position.maxScrollExtent) {
-        setState(() {
-          showScrollBar = true;
-        });
-      } else if (_nestedController.offset < _nestedController.position.maxScrollExtent && showScrollBar) {
-        setState(() {
-          showScrollBar = false;
-        });
-      }
-    });
+    _nestedController.addListener(_showScrollBar);
     super.initState();
+  }
+
+  _showScrollBar() {
+    if (_nestedController.offset == _nestedController.position.maxScrollExtent) {
+      setState(() {
+        showScrollBar = true;
+      });
+    } else if (_nestedController.offset < _nestedController.position.maxScrollExtent && showScrollBar) {
+      setState(() {
+        showScrollBar = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _nestedController.dispose();
+    super.dispose();
   }
 
   @override
