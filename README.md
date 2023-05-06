@@ -25,7 +25,7 @@ table {
   border-collapse: collapse;
 }
 table td, table th, table tr {
-  border: none;
+  border: none!important;
 }
 </style>
 
