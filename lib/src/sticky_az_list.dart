@@ -21,14 +21,14 @@ class StickyAzList<T extends TaggedItem> extends StatefulWidget {
   final Widget Function(BuildContext context, int index, T item) builder;
   final StickyAzOptions options;
 
-  StickyAzList({
+  const StickyAzList({
     Key? key,
     required this.items,
     this.physics,
     required this.builder,
     StickyAzOptions? options,
     this.controller,
-  })  : options = options ?? StickyAzOptions(),
+  })  : options = options ?? const StickyAzOptions(),
         super(key: key);
 
   @override
@@ -74,6 +74,7 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
 
   void _init() {
     symbols = _generateSymbols();
+    if (widget.items.isEmpty) return;
     _sortListandRemoveDuplicates();
     groupedList = _groupedItems();
     symbolNotifier.value = widget.options.listOptions.showSectionHeaderForEmptySections

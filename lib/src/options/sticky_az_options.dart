@@ -5,7 +5,7 @@ import 'package:sticky_az_list/src/typedef.dart';
 import 'package:sticky_az_list/sticky_az_list.dart';
 
 class StickyAzOptions {
-  StickyAzOptions({
+  const StickyAzOptions({
     this.startWithSpecialSymbol = false,
     this.specialSymbolBuilder,
     this.listOptions = const ListOptions(),
