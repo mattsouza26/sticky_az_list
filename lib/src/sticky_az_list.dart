@@ -74,16 +74,15 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
 
   void _init() {
     symbols = _generateSymbols();
-    if (widget.items.isEmpty) return;
     _sortListandRemoveDuplicates();
     groupedList = _groupedItems();
     symbolNotifier.value = widget.options.listOptions.showSectionHeaderForEmptySections
         ? symbols.keys.first
         : groupedList
-            .firstWhere(
+            .firstWhereOrNull(
               (e) => e.children.isNotEmpty,
             )
-            .tag;
+            ?.tag;
   }
 
   @override
