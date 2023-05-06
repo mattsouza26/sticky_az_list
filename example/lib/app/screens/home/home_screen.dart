@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:az_listview/app/common/songs.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +13,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final artists = data.map((item) => Artist(name: item['artist'] as String, soungs: data.where((e) => e['artist'] == item['artist']).length)).toList();
+  final artists = data
+      .map(
+        (item) => Artist(
+          name: item['artist'] as String,
+          soungs: data.where((e) => e['artist'] == item['artist']).length,
+        ),
+      )
+      .toList();
   final ScrollController _nestedController = ScrollController();
   bool hasNestedController = false;
 
@@ -38,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: hasNestedController
           ? NestedScrollView(
+              physics: const BouncingScrollPhysics(),
               controller: _nestedController,
               headerSliverBuilder: (context, _) => [
                 const SliverToBoxAdapter(

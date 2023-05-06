@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
 import '../typedef.dart';
@@ -13,6 +14,8 @@ class ListOptions {
     this.listHeaderBuilder,
     this.specialSymbolBuilder,
     this.headerAligment,
+    this.beforeList,
+    this.afterList,
   });
 
   /// Optional background color.
@@ -41,4 +44,10 @@ class ListOptions {
 
   /// Optional [Aligment] for header.
   final Alignment? headerAligment;
+
+  /// Optional [Widget] before the list.
+  final Widget? beforeList;
+
+  /// Optional [Widget] after the list.
+  final Widget? afterList;
 }

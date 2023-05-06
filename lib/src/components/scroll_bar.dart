@@ -93,7 +93,7 @@ class ScrollBar extends StatelessWidget {
         onVerticalDragCancel: _onGestureEnd,
         onVerticalDragEnd: _onGestureEnd,
         child: ScrollConfiguration(
-          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: options.scrollable),
           child: SingleChildScrollView(
             physics: options.scrollable ? const ScrollPhysics() : const NeverScrollableScrollPhysics(),
             scrollDirection: options.alignment == ScrollBarAlignment.stretch ? Axis.horizontal : Axis.vertical,
