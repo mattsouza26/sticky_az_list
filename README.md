@@ -63,3 +63,10 @@ StickyAzList(
             );
     });
 ```
+
+<style>
+table {
+    border-collapse: collapse;
+}
+
+</style>
