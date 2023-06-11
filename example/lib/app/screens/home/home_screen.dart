@@ -32,14 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   _showScrollBar() {
-    if (_nestedController.offset ==
-        _nestedController.position.maxScrollExtent) {
+    if (_nestedController.offset == _nestedController.position.maxScrollExtent) {
       setState(() {
         showScrollBar = true;
       });
-    } else if (_nestedController.offset <
-            _nestedController.position.maxScrollExtent &&
-        showScrollBar) {
+    } else if (_nestedController.offset < _nestedController.position.maxScrollExtent && showScrollBar) {
       setState(() {
         showScrollBar = false;
       });
@@ -85,10 +82,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(0.0),
                 child: StickyAzList(
                     options: StickyAzOptions(
-                        scrollBarOptions:
-                            ScrollBarOptions(visible: showScrollBar)),
-                    physics: NestedScrollControllerPhysics(
-                        parentController: _nestedController),
+                      scrollBarOptions: ScrollBarOptions(visible: showScrollBar),
+                    ),
+                    physics: NestedScrollControllerPhysics(parentController: _nestedController),
                     items: artists,
                     builder: (context, index, item) {
                       return ListTile(
