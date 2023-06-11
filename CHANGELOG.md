@@ -5,3 +5,7 @@
 ## 0.0.2
 
 * TODO: Fix analysis.
+
+## 0.0.2
+
+* TODO: Fix scrollbar overscroll.
