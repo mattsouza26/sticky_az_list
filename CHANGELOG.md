@@ -9,3 +9,7 @@
 ## 0.0.3
 
 * TODO: Fix scrollbar overscroll.
+
+## 0.0.4
+
+* TODO: Fix scrollbar dynamic position.

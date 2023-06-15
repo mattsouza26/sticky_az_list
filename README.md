@@ -29,7 +29,7 @@
 Depend on it:
 ```yaml
 dependencies:
-  sticky_az_list: ^0.0.1
+  sticky_az_list: ^0.0.4
 ```
 
 

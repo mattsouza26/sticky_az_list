@@ -37,6 +37,7 @@ class StickyAzList<T extends TaggedItem> extends StatefulWidget {
 
 class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
   final GlobalKey listKey = GlobalKey();
+  final GlobalKey scrollBarKey = GlobalKey();
   final SymbolNotifier symbolNotifier = SymbolNotifier();
   late final ScrollController controller;
   List<GroupedItem> groupedList = [];
@@ -54,8 +55,7 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
   @override
   void didUpdateWidget(covariant StickyAzList<T> oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.items != widget.items ||
-        oldWidget.options != widget.options) {
+    if (oldWidget.items != widget.items || oldWidget.options != widget.options) {
       {
         setState(() {
           _init();
@@ -77,14 +77,13 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
     symbols = _generateSymbols();
     _sortListandRemoveDuplicates();
     groupedList = _groupedItems();
-    symbolNotifier.value =
-        widget.options.listOptions.showSectionHeaderForEmptySections
-            ? symbols.keys.first
-            : groupedList
-                .firstWhereOrNull(
-                  (e) => e.children.isNotEmpty,
-                )
-                ?.tag;
+    symbolNotifier.value = widget.options.listOptions.showSectionHeaderForEmptySections
+        ? symbols.keys.first
+        : groupedList
+            .firstWhereOrNull(
+              (e) => e.children.isNotEmpty,
+            )
+            ?.tag;
   }
 
   @override
@@ -105,6 +104,7 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
             ),
           ),
           ScrollBar(
+            key: scrollBarKey,
             items: groupedList,
             options: widget.options.scrollBarOptions,
             symbols: symbols,
@@ -119,10 +119,7 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
   }
 
   Map<String, GlobalKey> _generateSymbols() {
-    List<String> symbols = allSymbols
-        .where((e) => SymbolCharExt.alphabeticMatch(e.value))
-        .map((e) => e.value)
-        .toList();
+    List<String> symbols = allSymbols.where((e) => SymbolCharExt.alphabeticMatch(e.value)).map((e) => e.value).toList();
     if (widget.options.startWithSpecialSymbol) {
       symbols.insert(0, "#");
     } else {
@@ -136,20 +133,14 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
   List<GroupedItem> _groupedItems() {
     final List<GroupedItem> groupList = [];
     final List<T> data = widget.items.toList();
-    final groups = groupBy(
-        data, (item) => SymbolCharExt.fromString(item.sortName()).value);
+    final groups = groupBy(data, (item) => SymbolCharExt.fromString(item.sortName()).value);
 
     for (var symbolChar in symbols.entries) {
       final String symbol = symbolChar.key;
       final groupedItem = GroupedItem(
         tag: symbol,
-        children: groups.entries
-                .firstWhereOrNull((group) => group.key == symbol)
-                ?.value
-                .map((item) => widget.builder
-                    .call(context, widget.items.indexOf(item), item))
-                .toList() ??
-            [],
+        children:
+            groups.entries.firstWhereOrNull((group) => group.key == symbol)?.value.map((item) => widget.builder.call(context, widget.items.indexOf(item), item)).toList() ?? [],
       );
       groupList.add(groupedItem);
     }
@@ -167,11 +158,9 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
 
       final String symbolFromA = SymbolCharExt.fromString(a.sortName()).value;
       final String symbolFromB = SymbolCharExt.fromString(b.sortName()).value;
-      if (!SymbolCharExt.alphabeticMatch(symbolFromA) &&
-          SymbolCharExt.alphabeticMatch(symbolFromB)) {
+      if (!SymbolCharExt.alphabeticMatch(symbolFromA) && SymbolCharExt.alphabeticMatch(symbolFromB)) {
         return 1;
-      } else if (SymbolCharExt.alphabeticMatch(symbolFromA) &&
-          !SymbolCharExt.alphabeticMatch(symbolFromB)) {
+      } else if (SymbolCharExt.alphabeticMatch(symbolFromA) && !SymbolCharExt.alphabeticMatch(symbolFromB)) {
         return -1;
       } else {
         return a.sortName().compareTo(b.sortName());
@@ -184,20 +173,15 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
   void _getCurrentStickHeader() {
     String? currentTag;
 
-    final RenderBox? renderBoxScrollView =
-        listKey.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? renderBoxScrollView = listKey.currentContext?.findRenderObject() as RenderBox?;
 
     for (final group in groupedList) {
-      final RenderSliverStickyHeader? renderBoxItem = group.key.currentContext
-          ?.findRenderObject() as RenderSliverStickyHeader?;
+      final RenderSliverStickyHeader? renderBoxItem = group.key.currentContext?.findRenderObject() as RenderSliverStickyHeader?;
       final RenderBox? renderBoxHeader = renderBoxItem?.header;
 
-      final Offset? itemOffset = renderBoxHeader?.globalToLocal(
-          renderBoxScrollView?.localToGlobal(Offset.zero) ?? Offset.zero);
+      final Offset? itemOffset = renderBoxHeader?.globalToLocal(renderBoxScrollView?.localToGlobal(Offset.zero) ?? Offset.zero);
 
-      if (itemOffset != null &&
-          itemOffset.dy == 0.0 &&
-          currentTag != group.tag) {
+      if (itemOffset != null && itemOffset.dy == 0.0 && currentTag != group.tag) {
         currentTag = group.tag;
         break;
       }
@@ -215,21 +199,13 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
   }
 
   void _jumpToSymbol(String symbol) {
-    final RenderSliverStickyHeader? renderSliverItem = groupedList
-        .firstWhere((item) => item.tag == symbol)
-        .key
-        .currentContext!
-        .findRenderObject() as RenderSliverStickyHeader?;
+    final RenderSliverStickyHeader? renderSliverItem = groupedList.firstWhere((item) => item.tag == symbol).key.currentContext!.findRenderObject() as RenderSliverStickyHeader?;
 
     final RenderObject? renderObjectHeader = renderSliverItem?.header;
     if (renderObjectHeader == null) return;
-    final RenderAbstractViewport viewport =
-        RenderAbstractViewport.of(renderObjectHeader);
+    final RenderAbstractViewport viewport = RenderAbstractViewport.of(renderObjectHeader);
     double? target;
-    target = viewport
-        .getOffsetToReveal(renderObjectHeader, 0)
-        .offset
-        .clamp(0, controller.position.maxScrollExtent);
+    target = viewport.getOffsetToReveal(renderObjectHeader, 0).offset.clamp(0, controller.position.maxScrollExtent);
 
     controller.jumpTo(target);
   }
@@ -243,21 +219,17 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
     double top = position.dy;
 
     if (overlayOptions.aligment == OverlayAligment.centered) {
-      left = (MediaQuery.of(context).size.width / 2).ceilToDouble() -
-          (overlayOptions.width / 2).ceilToDouble() +
-          (overlayOptions.offset?.dx ?? 0);
-      top = (MediaQuery.of(context).size.height / 2) -
-          (overlayOptions.height / 2) +
-          (overlayOptions.offset?.dy ?? 0);
+      left = (MediaQuery.of(context).size.width / 2).ceilToDouble() - (overlayOptions.width / 2).ceilToDouble() + (overlayOptions.offset?.dx ?? 0);
+      top = (MediaQuery.of(context).size.height / 2) - (overlayOptions.height / 2) + (overlayOptions.offset?.dy ?? 0);
     } else if (overlayOptions.aligment == OverlayAligment.dynamic) {
-      left = (MediaQuery.of(context).size.width - overlayOptions.width) -
-          (scrollBarOptions.width +
-              scrollBarOptions.padding.right +
-              scrollBarOptions.margin.horizontal) +
-          (overlayOptions.offset?.dx ?? 0);
-      top = top -
-          (overlayOptions.height / 2).ceilToDouble() +
-          (overlayOptions.offset?.dy ?? 0);
+      final RenderBox? scrollBarRenderBox = scrollBarKey.currentContext?.findRenderObject() as RenderBox?;
+      final scrollBarPos = scrollBarRenderBox?.localToGlobal(Offset.zero);
+      left = scrollBarPos != null
+          ? scrollBarPos.dx - overlayOptions.width
+          : (MediaQuery.of(context).size.width - overlayOptions.width) -
+              (scrollBarOptions.width + scrollBarOptions.padding.right + scrollBarOptions.margin.horizontal) +
+              (overlayOptions.offset?.dx ?? 0);
+      top = top - (overlayOptions.height / 2).ceilToDouble() + (overlayOptions.offset?.dy ?? 0);
     }
 
     if (symbolOverlay == null) {
@@ -268,12 +240,8 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
           return Positioned(
             left: position.dx,
             top: position.dy,
-            child: symbolNotifier.value == "#" &&
-                        overlayOptions.specialSymbolBuilder != null ||
-                    symbolNotifier.value == "#" &&
-                        widget.options.specialSymbolBuilder != null
-                ? overlayOptions.specialSymbolBuilder
-                        ?.call(context, symbolNotifier.value!, null) ??
+            child: symbolNotifier.value == "#" && overlayOptions.specialSymbolBuilder != null || symbolNotifier.value == "#" && widget.options.specialSymbolBuilder != null
+                ? overlayOptions.specialSymbolBuilder?.call(context, symbolNotifier.value!, null) ??
                     DefaultOverlaySymbol(
                       width: overlayOptions.width,
                       height: overlayOptions.height,
@@ -281,12 +249,10 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
                       background: overlayOptions.background,
                       padding: overlayOptions.padding,
                       style: overlayOptions.style,
-                      symbolIcon: widget.options.specialSymbolBuilder
-                          ?.call(context, symbolNotifier.value!, null),
+                      symbolIcon: widget.options.specialSymbolBuilder?.call(context, symbolNotifier.value!, null),
                       symbol: symbolNotifier.value!,
                     )
-                : overlayOptions.overlayBuilder
-                        ?.call(context, symbolNotifier.value!) ??
+                : overlayOptions.overlayBuilder?.call(context, symbolNotifier.value!) ??
                     DefaultOverlaySymbol(
                         width: overlayOptions.width,
                         height: overlayOptions.height,
