@@ -12,4 +12,9 @@
 
 ## 0.0.4
 
-* TODO: Fix scrollbar dynamic position.
+* TODO: Fix Overlay dynamic position.
+
+
+## 0.0.5
+
+* TODO: Fix Overlay dynamic position using custom offset.

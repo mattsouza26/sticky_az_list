@@ -223,12 +223,13 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
       top = (MediaQuery.of(context).size.height / 2) - (overlayOptions.height / 2) + (overlayOptions.offset?.dy ?? 0);
     } else if (overlayOptions.aligment == OverlayAligment.dynamic) {
       final RenderBox? scrollBarRenderBox = scrollBarKey.currentContext?.findRenderObject() as RenderBox?;
-      final scrollBarPos = scrollBarRenderBox?.localToGlobal(Offset.zero);
-      left = scrollBarPos != null
-          ? scrollBarPos.dx - overlayOptions.width
-          : (MediaQuery.of(context).size.width - overlayOptions.width) -
-              (scrollBarOptions.width + scrollBarOptions.padding.right + scrollBarOptions.margin.horizontal) +
-              (overlayOptions.offset?.dx ?? 0);
+      final Offset? scrollBarPos = scrollBarRenderBox?.localToGlobal(Offset.zero);
+
+      final overlayInitialPos =
+          (scrollBarRenderBox != null ? scrollBarPos!.dx : (MediaQuery.of(context).size.width - (scrollBarOptions.width + scrollBarOptions.margin.horizontal))) -
+              scrollBarOptions.margin.horizontal;
+
+      left = overlayInitialPos - (scrollBarOptions.width + scrollBarOptions.margin.horizontal) - scrollBarOptions.margin.left + (overlayOptions.offset?.dx ?? 0);
       top = top - (overlayOptions.height / 2).ceilToDouble() + (overlayOptions.offset?.dy ?? 0);
     }
 
