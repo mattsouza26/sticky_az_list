@@ -18,3 +18,7 @@
 ## 0.0.5
 
 * TODO: Fix Overlay dynamic position using custom offset.
+
+## 0.0.6
+
+* TODO: Fix IOS bottom padding on each sticky section header.

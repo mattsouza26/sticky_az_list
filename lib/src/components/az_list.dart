@@ -42,6 +42,7 @@ class AZList extends StatelessWidget {
                     offstage: !item.children.isNotEmpty &&
                         !options.showSectionHeaderForEmptySections,
                     sliver: SliverSafeArea(
+                      bottom: false,
                       sliver: SliverStickyHeader(
                         key: item.key,
                         sticky: options.stickySectionHeader,
