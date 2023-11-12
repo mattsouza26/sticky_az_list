@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:sticky_az_list/src/default/default_scrollbar_symbol.dart';
+import 'package:sticky_az_list/src/enable_safe_area.dart';
 import 'package:sticky_az_list/src/grouped_item.dart';
 import 'package:sticky_az_list/src/touched_symbol.dart';
 import 'package:sticky_az_list/src/typedef.dart';
@@ -15,6 +16,7 @@ class ScrollBar extends StatelessWidget {
   final SymbolNotifier symbolNotifier;
   final ScrollBarOptions options;
   final SymbolStateBuilder? defaultSpecialSymbolBuilder;
+  final EnableSafeArea safeArea;
 
   final void Function(TouchedSymbol value)? onSelectedSymbol;
   final void Function()? onSelectionEnd;
@@ -28,6 +30,7 @@ class ScrollBar extends StatelessWidget {
     this.defaultSpecialSymbolBuilder,
     this.onSelectedSymbol,
     this.onSelectionEnd,
+    required this.safeArea,
   }) : super(key: key);
 
   _onGestureHandler(details) {
@@ -86,63 +89,69 @@ class ScrollBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Offstage(
       offstage: !options.visible,
-      child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onVerticalDragUpdate: _onGestureHandler,
-        onVerticalDragDown: _onGestureHandler,
-        onVerticalDragCancel: _onGestureEnd,
-        onVerticalDragEnd: _onGestureEnd,
-        child: ScrollConfiguration(
-          behavior: ScrollConfiguration.of(context).copyWith(scrollbars: options.scrollable, overscroll: false),
-          child: SingleChildScrollView(
-            physics: options.scrollable ? const ScrollPhysics() : const NeverScrollableScrollPhysics(),
-            scrollDirection: options.alignment == ScrollBarAlignment.stretch ? Axis.horizontal : Axis.vertical,
-            child: Container(
-              padding: options.padding,
-              margin: options.margin,
-              alignment: Alignment.center,
-              width: options.width,
-              decoration: BoxDecoration(
-                borderRadius: options.borderRadius,
-                color: options.background,
-              ),
-              child: Semantics(
-                explicitChildNodes: true,
-                child: ValueListenableBuilder(
-                  valueListenable: symbolNotifier,
-                  builder: (context, value, child) => Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: symbols.entries.map((symbol) {
-                      final symbolState = _getSymbolState(symbol.key);
-                      if (symbolState == ScrollbarItemState.deactivated && !options.showDeactivated) {
-                        return SizedBox.shrink(
-                          key: symbol.value,
-                        );
-                      }
-                      return Flexible(
-                        child: SizedBox(
-                          width: options.width,
-                          key: symbol.value,
-                          child: Semantics(
-                            button: true,
-                            child: symbol.key == "#" && options.specialSymbolBuilder != null || symbol.key == "#" && defaultSpecialSymbolBuilder != null
-                                ? options.specialSymbolBuilder?.call(context, symbol.key, symbolState) ??
-                                    DefaultScrollBarSymbol(
-                                      state: symbolState,
-                                      symbolIcon: defaultSpecialSymbolBuilder?.call(context, symbol.key, symbolState),
-                                      symbol: symbol.key,
-                                      heightFactor: options.heightFactor,
-                                    )
-                                : options.symbolBuilder?.call(context, symbol.key, symbolState) ??
-                                    DefaultScrollBarSymbol(
-                                      symbol: symbol.key,
-                                      state: symbolState,
-                                      heightFactor: options.heightFactor,
-                                    ),
+      child: SafeArea(
+        bottom: safeArea.bottom,
+        top: safeArea.top,
+        left: safeArea.left,
+        right: safeArea.right,
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onVerticalDragUpdate: _onGestureHandler,
+          onVerticalDragDown: _onGestureHandler,
+          onVerticalDragCancel: _onGestureEnd,
+          onVerticalDragEnd: _onGestureEnd,
+          child: ScrollConfiguration(
+            behavior: ScrollConfiguration.of(context).copyWith(scrollbars: options.scrollable, overscroll: false),
+            child: SingleChildScrollView(
+              physics: options.scrollable ? const ScrollPhysics() : const NeverScrollableScrollPhysics(),
+              scrollDirection: options.alignment == ScrollBarAlignment.stretch ? Axis.horizontal : Axis.vertical,
+              child: Container(
+                padding: options.padding,
+                margin: options.margin,
+                alignment: Alignment.center,
+                width: options.width,
+                decoration: BoxDecoration(
+                  borderRadius: options.borderRadius,
+                  color: options.background,
+                ),
+                child: Semantics(
+                  explicitChildNodes: true,
+                  child: ValueListenableBuilder(
+                    valueListenable: symbolNotifier,
+                    builder: (context, value, child) => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: symbols.entries.map((symbol) {
+                        final symbolState = _getSymbolState(symbol.key);
+                        if (symbolState == ScrollbarItemState.deactivated && !options.showDeactivated) {
+                          return SizedBox.shrink(
+                            key: symbol.value,
+                          );
+                        }
+                        return Flexible(
+                          child: SizedBox(
+                            width: options.width,
+                            key: symbol.value,
+                            child: Semantics(
+                              button: true,
+                              child: symbol.key == "#" && options.specialSymbolBuilder != null || symbol.key == "#" && defaultSpecialSymbolBuilder != null
+                                  ? options.specialSymbolBuilder?.call(context, symbol.key, symbolState) ??
+                                      DefaultScrollBarSymbol(
+                                        state: symbolState,
+                                        symbolIcon: defaultSpecialSymbolBuilder?.call(context, symbol.key, symbolState),
+                                        symbol: symbol.key,
+                                        heightFactor: options.heightFactor,
+                                      )
+                                  : options.symbolBuilder?.call(context, symbol.key, symbolState) ??
+                                      DefaultScrollBarSymbol(
+                                        symbol: symbol.key,
+                                        state: symbolState,
+                                        heightFactor: options.heightFactor,
+                                      ),
+                            ),
                           ),
-                        ),
-                      );
-                    }).toList(),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
               ),

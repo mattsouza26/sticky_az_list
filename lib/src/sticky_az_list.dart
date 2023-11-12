@@ -100,6 +100,7 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
               controller: controller,
               physics: widget.physics,
               options: widget.options.listOptions,
+              safeArea: widget.options.safeArea,
               defaultSpecialSymbolBuilder: widget.options.specialSymbolBuilder,
             ),
           ),
@@ -110,6 +111,7 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
             symbols: symbols,
             symbolNotifier: symbolNotifier,
             defaultSpecialSymbolBuilder: widget.options.specialSymbolBuilder,
+            safeArea: widget.options.safeArea,
             onSelectedSymbol: _onSelectedSymbol,
             onSelectionEnd: _hideSymbolOverlay,
           ),
@@ -139,8 +141,7 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
       final String symbol = symbolChar.key;
       final groupedItem = GroupedItem(
         tag: symbol,
-        children:
-            groups.entries.firstWhereOrNull((group) => group.key == symbol)?.value.map((item) => widget.builder.call(context, widget.items.indexOf(item), item)).toList() ?? [],
+        children: groups.entries.firstWhereOrNull((group) => group.key == symbol)?.value.map((item) => widget.builder.call(context, widget.items.indexOf(item), item)).toList() ?? [],
       );
       groupList.add(groupedItem);
     }
@@ -225,8 +226,7 @@ class _StickyAzListState<T extends TaggedItem> extends State<StickyAzList<T>> {
       final RenderBox? scrollBarRenderBox = scrollBarKey.currentContext?.findRenderObject() as RenderBox?;
       final Offset? scrollBarPos = scrollBarRenderBox?.localToGlobal(Offset.zero);
 
-      final overlayInitialPos =
-          (scrollBarRenderBox == null ? scrollBarPos!.dx : (MediaQuery.of(context).size.width - (scrollBarOptions.width + scrollBarOptions.margin.horizontal)));
+      final overlayInitialPos = (scrollBarRenderBox == null ? scrollBarPos!.dx : (MediaQuery.of(context).size.width - (scrollBarOptions.width + scrollBarOptions.margin.horizontal)));
 
       left = overlayInitialPos - overlayOptions.width + (overlayOptions.offset?.dx ?? 0);
       top = top - (overlayOptions.height / 2).ceilToDouble() + (overlayOptions.offset?.dy ?? 0);

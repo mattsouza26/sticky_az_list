@@ -12,6 +12,7 @@ class StickyAzOptions {
     this.scrollBarOptions = const ScrollBarOptions(),
     this.overlayOptions = const OverlayOptions(),
     this.padding,
+    this.safeArea = const EnableSafeArea(),
   });
 
   /// Start with special symbol.
@@ -31,4 +32,7 @@ class StickyAzOptions {
 
   /// Padding for the entire widget.
   final EdgeInsets? padding;
+
+  /// Enable [SafeArea] for the list.
+  final EnableSafeArea safeArea;
 }
